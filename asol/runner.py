@@ -1,4 +1,5 @@
 import os
+import json
 
 
 # def ActOnParams(pars):
@@ -24,6 +25,6 @@ class Runner:
         self.files=files
         self.filescount=len(files)
     def debug_pars(self):
-        print(self.params)
+        print(json.dumps(self.params.__dict__))
     # def count_files_norecurse():
         # return len(os.listdir(directory))

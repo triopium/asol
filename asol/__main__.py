@@ -13,13 +13,18 @@ The command line interface.
 """
 
 def main ():
-    pars=params.ParamsPrepare()
+    # pars=params.ParamsPrepare()
+    pars=params.args_read()
     if pars.version:
         print(__version__)
         sys.exit(0)
+
     run=runner.Runner(pars)
-    run.debug_pars()
-    # log.info("Parsed paramsis")
+    if pars.debug_params:
+        run.debug_pars()
+        sys.exit(0)
+
+    # log.info("")
     # runner.count_files_norecurse(pars.input)
     ###
     # file: YYYY-MMMM-DD_DW

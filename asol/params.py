@@ -14,14 +14,30 @@ def args_read() -> Dict[str, any]:
     """
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("-i", "--input", required=False, type=str, help="Input filename")
+    parser.add_argument("-i", "--input", required=False, type=str, help="Input filename",default=get_default_sourcedir())
 
-    parser.add_argument("-o", "--output", required=False, type=str, help="output filename")
+    parser.add_argument("-o", "--output", required=False, type=str, help="output filename",default=get_default_targetdir())
 
     parser.add_argument("-w", "--write", required=False, help="actually write the files",action='store_true')
 
     parser.add_argument("-v", "--version", required=False, help="version of program",action='store_true')
+
+    parser.add_argument("-dp", "--debug-params", required=False, help="print parameters",action='store_true')
     return parser.parse_args()
+
+def get_default_sourcedir() -> str:
+    dirpath=os.environ.get('SOURCE_DIRECTORY')
+    if dirpath is None or dirpath == "":
+        #### from current dirpath
+        dirpath=os.getcwd()
+    return os.path.abspath(dirpath)
+
+def get_default_targetdir() -> str:
+    dirpath=os.environ.get('TARGET_DIRECTORY')
+    if dirpath is None or dirpath == "":
+        #### from current dirpath
+        dirpath=os.getcwd()
+    return os.path.abspath(dirpath)
 
 def GetPathCmdEnvCwd(dirpath: str) -> str:
     """
@@ -33,7 +49,8 @@ def GetPathCmdEnvCwd(dirpath: str) -> str:
         if dirpath is None or dirpath == "":
             #### from current dirpath
             dirpath=os.getcwd()
-    # return dirpath
+
+        # dstdir=os.path.join(dstdir,"target")
     return os.path.abspath(dirpath)
 
 
@@ -42,6 +59,8 @@ def ParamsPrepare():
     Check that parametrs are valid
     """
     pars=args_read()
+    # print(pars)
+    # parss=pars.Namespace()
     srcdir=GetPathCmdEnvCwd(pars.input)
     dstdir=GetPathCmdEnvCwd(pars.output)
     
