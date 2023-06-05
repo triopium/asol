@@ -16,7 +16,7 @@ def count_files_norecurse(directory):
 
 ### stdout
 @dataclass
-class filemove:
+class file_processing_data:
     source: str
     target: str
 
@@ -41,10 +41,8 @@ class Runner:
         logerr.info(f"Files {self.filescount} to process")
         processed=0
         for f in self.files:
-            fdate=date_from_filename(f)
             fsource=os.path.join(self.params.input,f)
-            ftarget=os.path.join(self.params.output,"hello")
-            outinfo=filemove(source=fsource,target=ftarget)
+            fdate=date_from_filename(f)
             jdate=date_from_json(fsource)
             # print("jdate",jdate)
             # print("fdate",fdate)
@@ -54,38 +52,36 @@ class Runner:
             if jdate is None or fdate is None:
                 ### error treated when parsing values from filename or json
                 continue
-            print(f"processing: {fsource}")
             dstdir=destination_path(jdate)
-            dstdir=os.path.join(self.params.output,dstdir)
-            print(dstdir)
-
-            # try:
-                # shutil.move(source_path, target_path)
-                # print(f"File '{filename}' moved successfully from '{source_dir}' to '{target_dir}'.")
-            # except IOError as e:
-                # print(f"Error while moving the file: {e}")
-
-            processed+=1
+            ftarget=os.path.join(self.params.output,dstdir)
+            moveinfo=file_processing_data(source=fsource,target=ftarget)
+            print(json.dumps(moveinfo.__dict__))
+            ok=move_file(fsource,
+                         ftarget,
+                         self.params.write,
+                         self.params.force)
+            if ok:
+                processed+=1
 
         if processed == self.filescount:
             logerr.info(f"Success: processed {processed}/{self.filescount} files")
         if processed != self.filescount:
             logerr.error(f"Failed: processed {processed}/{self.filescount} files")
 
-            # else:
-                # print("jdate",jdate)
-                # print("fdate",fdate)
-            # if jdate is None or fdate != jdate:
 
-def move_file(src: str,dst: str,dryrun: bool,overwrite: bool) -> bool:
+def move_file(src: str,dst: str,write: bool,forcewrite: bool) -> bool:
     err_file=f"input_file: {src}, error moving,"
     if os.path.exists(dst):
-        if not overwrite:
+        if not forcewrite:
             logerr.error(f"{err_file} file already exists: {dst}")
-        return False
+            return False
         logerr.warn(f"{err_file} file already exists: {dst}")
     try:
-        if not dryrun:
+        dstdir=os.path.dirname(dst)
+        print("heloo",dstdir)
+        if write:
+            dstdir=os.path.dirname(dst)
+            os.makedirs(dstdir, exist_ok=True)
             shutil.move(src,dst)
         return True
     except IOError as e:
