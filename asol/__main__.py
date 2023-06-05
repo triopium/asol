@@ -16,7 +16,7 @@ The command line interface.
 def main ():
     # pars=params.ParamsPrepare()
     pars=params.args_read()
-    logerr.debug("hello_jekl")
+    # logerr.debug("hello_jekl")
     if pars.version:
         print(__version__)
         sys.exit(0)

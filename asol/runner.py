@@ -47,15 +47,16 @@ class Runner:
             jdate=date_from_json(fsource)
             print("jdate",jdate)
 
-def date_from_filename(filename: str) -> str:
+def date_from_filename(filename: str) -> datetime:
     # Use regular expression to extract date from filename
     pattern = r"\d{4}-\d{2}-\d{2}"
     match = re.search(pattern, filename)
     if match:
-        return match.group()
+        fdate=parse_date(match.group())
+        return fdate
     else:
+        logerr.error("filename.date: no valid date")
         return None
-
 
 def parse_date(date_string: str) -> datetime:
     try:
@@ -66,7 +67,7 @@ def parse_date(date_string: str) -> datetime:
         return none
 
 def date_from_json(input_file: str) -> datetime:
-    err_json=f"input_file: {input_file}, error parsing file:"
+    err_json=f"input_file: {input_file}, error parsing,"
     try:
         with open(input_file, 'r') as file:
             print(input_file)
