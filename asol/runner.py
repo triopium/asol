@@ -31,22 +31,42 @@ class Runner:
     def params_check(self):
         logerr.info("checking parameters")
         self.params=params_check(self.params)
-        logerr.info(f"Processing {self.filescount} files")
+        logerr.info(f"Processing {self.filescount} files count")
 
     def simulate(self):
-        logerr.info("simulate run")
+        logerr.debug("simulate run")
         self.params_check()
         processed=0
         for f in self.files:
             fdate=date_from_filename(f)
-            print("fdate",fdate)
             fsource=os.path.join(self.params.input,f)
             ftarget=os.path.join(self.params.output,"hello")
             outinfo=filemove(source=fsource,target=ftarget)
             jdate=date_from_json(fsource)
-            print("jdate",jdate)
+            # print("jdate",jdate)
+            # print("fdate",fdate)
+            if jdate != fdate:
+                logerr.error(f"date differs: {fsource}")
+                continue
+            print(f"processing: {fsource}")
+            processed+=1
+        if processed == self.filescount:
+            logerr.info(f"Success: processed {processed}/{self.filescount} files")
+        if processed != self.filescount:
+            logerr.error(f"Failed: processed {processed}/{self.filescount} files")
 
-def move_file():
+            # else:
+                # print("jdate",jdate)
+                # print("fdate",fdate)
+            # if jdate is None or fdate != jdate:
+                # logerr.error("date differs")
+            # if jdate != fdate:
+                # logerr.error()
+            # print("jdate",jdate)
+            # print("fdate",fdate)
+
+def destination_dir(date: datetime) -> str:
+    pass
 
 def parse_date(date_string: str) -> datetime:
     try:
@@ -71,7 +91,6 @@ def date_from_json(input_file: str) -> datetime:
     err_json=f"input_file: {input_file}, error parsing,"
     try:
         with open(input_file, 'r') as file:
-            print(input_file)
             try:
                 json_data = json.load(file)
                 jdatestr=json_data['date']
@@ -114,14 +133,9 @@ def params_check(pars):
         raise ValueError(f"output directory not writable: {pars.output}")
     if os.listdir(pars.output):
         logerr.warn(f"output directory not empty: {pars.output}")
-        # print("oedea")
         # pars.output=os.path.join(pars.output,"target")
     # if os.listdir(pars.output):
         # logerr.warn(f"directory not empty: {pars.output}")
     return pars
 
 
-    # def count_files_norecurse():
-        # return len(os.listdir(directory))
-# def validate_files(directory):
-    # for _,_,files in os.listdir(directory)

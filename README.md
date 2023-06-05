@@ -1,12 +1,25 @@
 # ASOL
 - soulution to assignment at 
-# Installation
 # Usage
+## Environment vars
+SOURCE_DIRECTORY
+TARGET_DIRECTORY
+LOGLEVEL
+
 ## usage examples
+
+# Build
+-dynamic version from git tag
+-using poetry
  
+# Installation
+
 # Treating errors
 Errors are written to stderr. Stderr can be piped to file.
 Errors can be filtered by type. Errors also contains filename. 
+e.g.: 
+pythone -m `asol -i inpuf -o outputf > errfile.log`
+`cat errfile.log | grep "error type"`
 
 The filtered list can than be used to further process source directory:
 1. Run again if files were locked.
@@ -17,7 +30,7 @@ The filtered list can than be used to further process source directory:
 a) ammend filename date acording to json field
 b) ammend json field acording to filename
 c) ammend dates according to other logic
-Best option would be to look at process which is generating the source files.
+Best option would be to look at process which is generating the source files, quality of the data, and try to find a way to automate the process without manul editing.
 
 
 

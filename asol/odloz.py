@@ -33,3 +33,24 @@
         # return parsed_date
     # except ValueError:
         # return none
+
+    # def count_files_norecurse():
+        # return len(os.listdir(directory))
+# def validate_files(directory):
+    # for _,_,files in os.listdir(directory)
+
+
+# def GetPathCmdEnvCwd(dirpath: str) -> str:
+    # """
+    # Get path from commandlie input, env variable, or current dir. In order of decreasing preference
+    # """
+    # if dirpath is None or dirpath == "":
+        #### from environ
+        # dirpath=os.environ.get('SOURCE_DIRECTORY')
+        # if dirpath is None or dirpath == "":
+            # #### from current dirpath
+            # dirpath=os.getcwd()
+
+        # dstdir=os.path.join(dstdir,"target")
+    # return os.path.abspath(dirpath)
+

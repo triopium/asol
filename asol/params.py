@@ -20,6 +20,8 @@ def args_read() -> Dict[str, any]:
 
     parser.add_argument("-w", "--write", required=False, help="actually write the files",action='store_true')
 
+    parser.add_argument("-f", "--force", required=False, help="force overwrite data in target directory",action='store_true')
+
     parser.add_argument("-v", "--version", required=False, help="version of program",action='store_true')
 
     parser.add_argument("-pd", "--params-debug", required=False, help="print parameters",action='store_true')
@@ -47,20 +49,6 @@ def get_default_targetdir() -> str:
         dirpath=os.getcwd()
         # dirpath=os.path.join(dirpath,"target")
     return os.path.abspath(dirpath)
-
-# def GetPathCmdEnvCwd(dirpath: str) -> str:
-    # """
-    # Get path from commandlie input, env variable, or current dir. In order of decreasing preference
-    # """
-    # if dirpath is None or dirpath == "":
-        #### from environ
-        # dirpath=os.environ.get('SOURCE_DIRECTORY')
-        # if dirpath is None or dirpath == "":
-            # #### from current dirpath
-            # dirpath=os.getcwd()
-
-        # dstdir=os.path.join(dstdir,"target")
-    # return os.path.abspath(dirpath)
 
 
 
