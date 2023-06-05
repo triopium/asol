@@ -48,8 +48,15 @@ class Runner:
             if jdate != fdate:
                 logerr.error(f"date differs: {fsource}")
                 continue
+            if jdate is None or fdate is None:
+                ### error treated when parsing values from filename or json
+                continue
             print(f"processing: {fsource}")
+            dstdir=destination_dir(jdate)
+            dstdir=os.path.join(self.params.output,dstdir)
+            print(dstdir)
             processed+=1
+
         if processed == self.filescount:
             logerr.info(f"Success: processed {processed}/{self.filescount} files")
         if processed != self.filescount:
@@ -59,14 +66,17 @@ class Runner:
                 # print("jdate",jdate)
                 # print("fdate",fdate)
             # if jdate is None or fdate != jdate:
-                # logerr.error("date differs")
-            # if jdate != fdate:
-                # logerr.error()
-            # print("jdate",jdate)
-            # print("fdate",fdate)
 
 def destination_dir(date: datetime) -> str:
-    pass
+    week_number=date.isocalendar()[1]
+    wstring=f"W{week_number:02d}"
+    year=str(date.year)
+    month=date.month
+    day=date.day
+    daynum=date.weekday()+1
+    fname=f"{month:02d}-{day:02d}_{daynum:01d}.json"
+    dstdir=os.path.join(year,wstring,fname)
+    return dstdir
 
 def parse_date(date_string: str) -> datetime:
     try:
