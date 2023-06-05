@@ -43,9 +43,18 @@ class Runner:
             fsource=os.path.join(self.params.input,f)
             ftarget=os.path.join(self.params.output,"hello")
             outinfo=filemove(source=fsource,target=ftarget)
-
             jdate=date_from_json(fsource)
             print("jdate",jdate)
+
+def move_file():
+
+def parse_date(date_string: str) -> datetime:
+    try:
+        format_string = "%Y-%m-%d"
+        parsed_date = datetime.strptime(date_string, format_string)
+        return parsed_date
+    except ValueError:
+        return none
 
 def date_from_filename(filename: str) -> datetime:
     # Use regular expression to extract date from filename
@@ -57,14 +66,6 @@ def date_from_filename(filename: str) -> datetime:
     else:
         logerr.error("filename.date: no valid date")
         return None
-
-def parse_date(date_string: str) -> datetime:
-    try:
-        format_string = "%Y-%m-%d"
-        parsed_date = datetime.strptime(date_string, format_string)
-        return parsed_date
-    except ValueError:
-        return none
 
 def date_from_json(input_file: str) -> datetime:
     err_json=f"input_file: {input_file}, error parsing,"
@@ -97,49 +98,6 @@ def date_from_json(input_file: str) -> datetime:
     except Exception as e:
         logerr.error(f"{err_json} json.date: exception, {e}")
         return None
-
-
-
-# def solve_output_file(input_file: str) -> str:
-    # try:
-        # with open(input_file, 'r') as file:
-            # json_data = json.load(file)
-            # print("hello",json_data.date)
-            # return json_data
-    # except Exception as e:
-        # logerr.error(f"parsing json: {input_file}, {str(e)}")
-        # return None
-    # json_data=parse_json_file(input_file)
-    # print(json_data)
-
-# def compare_dates(fdate,jsondate):
-# def parse_json_file(file_path: str) ->Optional[Any]:
-    # try:
-        # with open(file_path, 'r') as file:
-            # json_data = json.load(file)
-            # return json_data
-    # except Exception as e:
-        # logerr.error(f"parsing json: {file_path}, {str(e)}")
-        # return None
-
-        # return json_data
-    # except json.JSONDecodeError as e:
-        # print(f"Error while parsing JSON file: {file_path}")
-        # print(f"Error message: {str(e)}")
-        # return None
-    # with open(file_path, 'r') as file:
-        # json_data = json.load(file)
-    # return json_data
-
-# def validate_filedate(filaneme: str) -> bool:
-
-# def process_file():
-    # fsource=os.path.join(file,f)
-    # ftarget=os.path.join(self.params.output,"hello")
-    # out=filemove(source=fsource,target=ftarget)
-    # return json.dumps(asdict(out))
-
-        
 
 def params_check(pars):
     """ Check that parametrs are valid """
