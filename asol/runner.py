@@ -7,6 +7,8 @@ from typing import Optional, Any
 from . import logger
 logerr = logging.getLogger(__name__)
 logerr.addHandler(logger.handler_stderr)
+import re
+from datetime import datetime
 
 def count_files_norecurse(directory):
     return len(os.listdir(directory))
@@ -36,32 +38,88 @@ class Runner:
         self.params_check()
         processed=0
         for f in self.files:
+            fdate=date_from_filename(f)
+            print("fdate",fdate)
             fsource=os.path.join(self.params.input,f)
             ftarget=os.path.join(self.params.output,"hello")
             outinfo=filemove(source=fsource,target=ftarget)
-            print(json.dumps(asdict(outinfo)))
-            output_file(fsource)
-            # json_data=parse_json_file(fsource)
-            # print(json_data)
-            processed+=1
 
-        logerr.info(f"moved {processed} files")
-            # logerr.debug(json.dumps(asdict(out)))
-            # print(fn)
-# def prepare_move_info():
+            jdate=date_from_json(fsource)
+            print("jdate",jdate)
+
+def date_from_filename(filename: str) -> str:
+    # Use regular expression to extract date from filename
+    pattern = r"\d{4}-\d{2}-\d{2}"
+    match = re.search(pattern, filename)
+    if match:
+        return match.group()
+    else:
+        return None
 
 
-def parse_json_file(file_path: str) ->Optional[Any]:
+def parse_date(date_string: str) -> datetime:
     try:
-        with open(file_path, 'r') as file:
-            json_data = json.load(file)
-            return json_data
-    except Exception as e:
-        logerr.error(f"parsing json: {file_path}, {str(e)}")
+        format_string = "%Y-%m-%d"
+        parsed_date = datetime.strptime(date_string, format_string)
+        return parsed_date
+    except ValueError:
+        return none
 
-def output_file(input_file: str) -> str:
-    json_data=parse_json_file(input_file)
-    print(json_data)
+def date_from_json(input_file: str) -> datetime:
+    err_json=f"input_file: {input_file}, error parsing file:"
+    try:
+        with open(input_file, 'r') as file:
+            print(input_file)
+            try:
+                json_data = json.load(file)
+                jdatestr=json_data['date']
+                if jdatestr is None:
+                    logerr.error(f"{err_json} json.date: None")
+                    return None
+                jdate=parse_date(jdatestr)
+                if jdate is None:
+                    logerr.error(f"{err_json} json.date: invalid date")
+                    return None
+                return jdate
+            except json.JSONDecodeError as e:
+                logerr.error(f"{err_json} json.date: invalid json, {e}")
+                return None
+            except Exception as e:
+                logerr.error(f"{err_json} json.date: exception, {e}")
+                return None
+    except FileNotFoundError:
+        logerr.error(f"{err_json} json.date: file not found")
+        return None
+    except PermissionError:
+        logerr.error(f"{err_json} json.date: no permission error")
+        return None
+    except Exception as e:
+        logerr.error(f"{err_json} json.date: exception, {e}")
+        return None
+
+
+
+# def solve_output_file(input_file: str) -> str:
+    # try:
+        # with open(input_file, 'r') as file:
+            # json_data = json.load(file)
+            # print("hello",json_data.date)
+            # return json_data
+    # except Exception as e:
+        # logerr.error(f"parsing json: {input_file}, {str(e)}")
+        # return None
+    # json_data=parse_json_file(input_file)
+    # print(json_data)
+
+# def compare_dates(fdate,jsondate):
+# def parse_json_file(file_path: str) ->Optional[Any]:
+    # try:
+        # with open(file_path, 'r') as file:
+            # json_data = json.load(file)
+            # return json_data
+    # except Exception as e:
+        # logerr.error(f"parsing json: {file_path}, {str(e)}")
+        # return None
 
         # return json_data
     # except json.JSONDecodeError as e:

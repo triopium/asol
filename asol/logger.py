@@ -7,5 +7,9 @@ logging.getLogger().handlers.clear()
 
 ### stderr
 handler_stderr = logging.StreamHandler(sys.stderr)
-formatter_stderr = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+# formatter_stderr = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+formatter_stderr = logging.Formatter(
+        '%(levelname)s - %(name)s:%(funcName)s:%(lineno)d - %(message)s'
+)
 handler_stderr.setFormatter(formatter_stderr)
+# "%(name)s 
