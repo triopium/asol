@@ -54,3 +54,7 @@
         # dstdir=os.path.join(dstdir,"target")
     # return os.path.abspath(dirpath)
 
+if os.path.exists(source_path) and not os.path.exists(target_path):
+    print(f"Dry run: File '{filename}' will be moved from '{source_dir}' to '{target_dir}'.")
+else:
+    print(f"Dry run: File '{filename}' cannot be moved to '{target_dir}'.")

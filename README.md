@@ -7,6 +7,7 @@ TARGET_DIRECTORY
 LOGLEVEL
 
 ## usage examples
+python -m asol -i testwd/source -o testwd/target -s
 
 # Build
 -dynamic version from git tag
@@ -18,10 +19,12 @@ LOGLEVEL
 Errors are written to stderr. Stderr can be piped to file.
 Errors can be filtered by type. Errors also contains filename. 
 e.g.: 
-pythone -m `asol -i inpuf -o outputf > errfile.log`
+python -m `asol -i inpuf -o outputf > errfile.log`
 `cat errfile.log | grep "error type"`
+or
+python -m `asol -i inpuf -o outputf 2>&1 | grep "error type"`
 
-The filtered list can than be used to further process source directory:
+The filtered list can then be used to further process source directory:
 1. Run again if files were locked.
 2. Run again after changing permissions.
 3. Run again after ammending invalid json.

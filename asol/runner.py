@@ -9,6 +9,7 @@ logerr = logging.getLogger(__name__)
 logerr.addHandler(logger.handler_stderr)
 import re
 from datetime import datetime
+import shutil
 
 def count_files_norecurse(directory):
     return len(os.listdir(directory))
@@ -26,16 +27,18 @@ class Runner:
         files=os.listdir(pars.input)
         self.files=files
         self.filescount=len(files)
+
     def params_debug(self):
         print(json.dumps(self.params.__dict__))
+
     def params_check(self):
         logerr.info("checking parameters")
         self.params=params_check(self.params)
-        logerr.info(f"Processing {self.filescount} files count")
+        logerr.info(f"Files {self.filescount} to process")
 
     def simulate(self):
-        logerr.debug("simulate run")
-        self.params_check()
+        self.params=params_check(self.params)
+        logerr.info(f"Files {self.filescount} to process")
         processed=0
         for f in self.files:
             fdate=date_from_filename(f)
@@ -52,9 +55,16 @@ class Runner:
                 ### error treated when parsing values from filename or json
                 continue
             print(f"processing: {fsource}")
-            dstdir=destination_dir(jdate)
+            dstdir=destination_path(jdate)
             dstdir=os.path.join(self.params.output,dstdir)
             print(dstdir)
+
+            # try:
+                # shutil.move(source_path, target_path)
+                # print(f"File '{filename}' moved successfully from '{source_dir}' to '{target_dir}'.")
+            # except IOError as e:
+                # print(f"Error while moving the file: {e}")
+
             processed+=1
 
         if processed == self.filescount:
@@ -67,7 +77,22 @@ class Runner:
                 # print("fdate",fdate)
             # if jdate is None or fdate != jdate:
 
-def destination_dir(date: datetime) -> str:
+def move_file(src: str,dst: str,dryrun: bool,overwrite: bool) -> bool:
+    err_file=f"input_file: {src}, error moving,"
+    if os.path.exists(dst):
+        if not overwrite:
+            logerr.error(f"{err_file} file already exists: {dst}")
+        return False
+        logerr.warn(f"{err_file} file already exists: {dst}")
+    try:
+        if not dryrun:
+            shutil.move(src,dst)
+        return True
+    except IOError as e:
+        logerr.error(f"{err_file} exception {e}")
+        return False
+
+def destination_path(date: datetime) -> str:
     week_number=date.isocalendar()[1]
     wstring=f"W{week_number:02d}"
     year=str(date.year)

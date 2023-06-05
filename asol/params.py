@@ -28,7 +28,9 @@ def args_read() -> Dict[str, any]:
 
     parser.add_argument("-pc", "--params-check", required=False, help="check parameters validity",action='store_true')
 
-    parser.add_argument("-s", "--simulate", required=False, help="check parameters validity",action='store_true')
+    parser.add_argument("--graph-count-files", required=False, help="check parameters validity",action='store_true')
+
+    # parser.add_argument("-s", "--simulate", required=False, help="check parameters validity",action='store_true')
 
     params=parser.parse_args()
     params.input=os.path.abspath(params.input)

@@ -30,21 +30,14 @@ def main ():
         run.params_check()
         sys.exit(0)
 
-    if pars.simulate:
-        run.simulate()
+    if pars.graph_count_files:
+        logerr.debug("graphing count")
         sys.exit(0)
 
-    # logerr.info("")
-    # runner.count_files_norecurse(pars.input)
-    ###
-    # file: YYYY-MMMM-DD_DW
-    # date, text
-    # date in filename should be same in atribute
+    ### Finally run
+    run.simulate()
+    sys.exit(0)
 
-    # runner.ActOnParams(pars)
-    # print(runner.count_files_norecurse(pars.input))
-    # files_count=runner.count_files(pars.input)
-    # logroot.info(f"Processing {files_count} files")
 
 if __name__ == '__main__':
     main()
