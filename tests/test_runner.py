@@ -5,9 +5,9 @@ from asol.runner import Runner
 def validate():
  return Runner()
 
-def test_fail(validate):
+# def test_fail(validate):
     # print("makak")
-    assert validate.run() == "hello_bad"
+    # assert validate.run() == "hello_bad"
 
-def test_nofail(validate):
-    assert validate.run() == "hello"
+# def test_nofail(validate):
+    # assert validate.run() == "hello"

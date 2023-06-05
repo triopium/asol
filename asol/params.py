@@ -4,11 +4,11 @@ import sys
 from typing import Dict
 import logging
 from . import logger
-log = logging.getLogger(__name__)
-log.addHandler(logger.handler)
+logerr = logging.getLogger(__name__)
+logerr.addHandler(logger.handler_stderr)
 
 def args_read() -> Dict[str, any]:
-    # log.info("parsing params")
+    # logerr.info("parsing params")
     """
     Parse the command line arguments.
     """
@@ -22,8 +22,16 @@ def args_read() -> Dict[str, any]:
 
     parser.add_argument("-v", "--version", required=False, help="version of program",action='store_true')
 
-    parser.add_argument("-dp", "--debug-params", required=False, help="print parameters",action='store_true')
-    return parser.parse_args()
+    parser.add_argument("-pd", "--params-debug", required=False, help="print parameters",action='store_true')
+
+    parser.add_argument("-pc", "--params-check", required=False, help="check parameters validity",action='store_true')
+
+    parser.add_argument("-s", "--simulate", required=False, help="check parameters validity",action='store_true')
+
+    params=parser.parse_args()
+    params.input=os.path.abspath(params.input)
+    params.output=os.path.abspath(params.output)
+    return params
 
 def get_default_sourcedir() -> str:
     dirpath=os.environ.get('SOURCE_DIRECTORY')
@@ -37,21 +45,23 @@ def get_default_targetdir() -> str:
     if dirpath is None or dirpath == "":
         #### from current dirpath
         dirpath=os.getcwd()
+        # dirpath=os.path.join(dirpath,"target")
     return os.path.abspath(dirpath)
 
-def GetPathCmdEnvCwd(dirpath: str) -> str:
-    """
-    Get path from commandlie input, env variable, or current dir. In order of decreasing preference
-    """
-    if dirpath is None or dirpath == "":
+# def GetPathCmdEnvCwd(dirpath: str) -> str:
+    # """
+    # Get path from commandlie input, env variable, or current dir. In order of decreasing preference
+    # """
+    # if dirpath is None or dirpath == "":
         #### from environ
-        dirpath=os.environ.get('SOURCE_DIRECTORY')
-        if dirpath is None or dirpath == "":
-            #### from current dirpath
-            dirpath=os.getcwd()
+        # dirpath=os.environ.get('SOURCE_DIRECTORY')
+        # if dirpath is None or dirpath == "":
+            # #### from current dirpath
+            # dirpath=os.getcwd()
 
         # dstdir=os.path.join(dstdir,"target")
-    return os.path.abspath(dirpath)
+    # return os.path.abspath(dirpath)
+
 
 
 def ParamsPrepare():

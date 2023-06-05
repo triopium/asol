@@ -1,7 +1,8 @@
 import logging
 from . import logger
-log = logging.getLogger(__name__)
-log.addHandler(logger.handler)
+logerr = logging.getLogger(__name__)
+logerr.addHandler(logger.handler_stderr)
+
 import sys
 import os
 from . import params
@@ -15,16 +16,25 @@ The command line interface.
 def main ():
     # pars=params.ParamsPrepare()
     pars=params.args_read()
+    logerr.debug("hello_jekl")
     if pars.version:
         print(__version__)
         sys.exit(0)
 
     run=runner.Runner(pars)
-    if pars.debug_params:
-        run.debug_pars()
+    if pars.params_debug:
+        run.params_debug()
         sys.exit(0)
 
-    # log.info("")
+    if pars.params_check:
+        run.params_check()
+        sys.exit(0)
+
+    if pars.simulate:
+        run.simulate()
+        sys.exit(0)
+
+    # logerr.info("")
     # runner.count_files_norecurse(pars.input)
     ###
     # file: YYYY-MMMM-DD_DW
