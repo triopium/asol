@@ -6,6 +6,7 @@ import sys
 import os
 from . import params
 from . import runner
+from . import __version__
 
 """
 The command line interface.
@@ -15,7 +16,7 @@ def main ():
     # log.info("Starting program")
     pars=params.ParamsPrepare()
     if pars.version:
-        print("my version: {__version__}")
+        print(__version__")
         sys.exit(0)
     # log.info("Parsed params")
     run=runner.Runner(pars)
