@@ -16,7 +16,7 @@ def main ():
     # log.info("Starting program")
     pars=params.ParamsPrepare()
     if pars.version:
-        print(__version__")
+        print(__version__)
         sys.exit(0)
     # log.info("Parsed params")
     run=runner.Runner(pars)
