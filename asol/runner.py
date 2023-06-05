@@ -164,9 +164,6 @@ def params_check(pars):
         raise ValueError(f"output directory not writable: {pars.output}")
     if os.listdir(pars.output):
         logerr.warn(f"output directory not empty: {pars.output}")
-        # pars.output=os.path.join(pars.output,"target")
-    # if os.listdir(pars.output):
-        # logerr.warn(f"directory not empty: {pars.output}")
     return pars
 
 
