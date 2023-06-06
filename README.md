@@ -1,19 +1,24 @@
 # ASOL
 - soulution to assignment at 
-# Usage
-## Environment vars
-SOURCE_DIRECTORY
-TARGET_DIRECTORY
-LOGLEVEL
-
-## usage examples
-python -m asol -i testwd/source -o testwd/target -s
-
+ 
 # Build
 -dynamic version from git tag
 -using poetry
  
 # Installation
+# Usage
+- by default date from json object inside the file has higher priority than the date in filename
+
+## Environment vars
+SOURCE_DIRECTORY
+TARGET_DIRECTORY
+LOGLEVEL
+
+## Options
+-f, --force   'overwrite files in destination directory
+
+## Usage examples
+python -m asol -i testwd/source -o testwd/target -s
 
 # Treating errors
 Errors are written to stderr. Stderr can be piped to file.
