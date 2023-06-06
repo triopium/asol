@@ -54,7 +54,33 @@
         # dstdir=os.path.join(dstdir,"target")
     # return os.path.abspath(dirpath)
 
-if os.path.exists(source_path) and not os.path.exists(target_path):
-    print(f"Dry run: File '{filename}' will be moved from '{source_dir}' to '{target_dir}'.")
-else:
-    print(f"Dry run: File '{filename}' cannot be moved to '{target_dir}'.")
+# if os.path.exists(source_path) and not os.path.exists(target_path):
+    # print(f"Dry run: File '{filename}' will be moved from '{source_dir}' to '{target_dir}'.")
+# else:
+    # print(f"Dry run: File '{filename}' cannot be moved to '{target_dir}'.")
+
+
+# def get_date(:
+# def graph_count_files_week(directory: str):
+#     week_counts = {}
+#     # for filename in os.listdir(directory):
+#         if filename.endswith(".json"):
+#             # Extract the week number from the file name
+#             parts = filename.split("-")
+#             weekly_counts = int(parts[1])
+
+#             # Increment the count for the week
+#             week_counts[weekly_counts] = week_counts.get(weekly_counts, 0) + 1
+
+#     # Sort the week counts by week number
+#     sorted_weeks = sorted(week_counts.items())
+
+#     # Extract the week numbers and counts
+#     weeks, counts = zip(*sorted_weeks)
+
+#     # Plot the data
+#     plt.plot(weeks, counts, marker="o")
+#     plt.title("Number of Files per Week")
+#     plt.xlabel("Week Number")
+#     plt.ylabel("File Count")
+#     plt.show()

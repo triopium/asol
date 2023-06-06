@@ -17,7 +17,7 @@ The command line interface.
 def main ():
     # pars=params.ParamsPrepare()
     pars=params.args_read()
-    # logerr.debug("hello_jekl")
+    # logerr.info("hello_jekl")
     if pars.version:
         print(__version__)
         sys.exit(0)
@@ -33,8 +33,8 @@ def main ():
 
     if pars.graph_count_files_week:
         logerr.info("graphing count files per week")
-        files=grapher.get_files(pars.input)
-        print(files)
+        grapher.graph_count_files_week(pars.input)
+        # print(files)
         sys.exit(0)
 
     ### Finally run
