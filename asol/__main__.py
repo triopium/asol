@@ -7,6 +7,7 @@ import sys
 import os
 from . import params
 from . import runner
+from . import grapher
 from . import __version__
 
 """
@@ -32,6 +33,7 @@ def main ():
 
     if pars.graph_count_files_week:
         logerr.info("graphing count files per week")
+        get_files(pars.input)
         sys.exit(0)
 
     ### Finally run
