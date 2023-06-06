@@ -44,15 +44,28 @@ class Runner:
             fsource=os.path.join(self.params.input,f)
             fdate=date_from_filename(f)
             jdate=date_from_json(fsource)
-            # print("jdate",jdate)
-            # print("fdate",fdate)
+            finaldate=fdate
+
+            if jdate is None or fdate is None:
+                ### error treated elswhere when parsing values from filename or json
+                continue
+
+            ### date in filename and json differs
             if jdate != fdate:
                 logerr.error(f"date differs: {fsource}")
+                if self.params.date_priority == "filename":
+                    finaldate=fdate
+                    if self.params.ammend_date:
+                        ammend_date_in_json(fsource,fdate)
+
+                if self.params.date_priority == "json":
+                    finaldate=jdate
                 continue
-            if jdate is None or fdate is None:
-                ### error treated when parsing values from filename or json
+            seqnum,ok=extract_seqnum(f)
+            if not ok:
+                logerr.error("Cannot extract sequnece number from filename")
                 continue
-            dstdir=destination_path(jdate)
+            dstdir=destination_path(finaldate,seqnum)
             ftarget=os.path.join(self.params.output,dstdir)
             moveinfo=file_processing_data(source=fsource,target=ftarget)
             print(json.dumps(moveinfo.__dict__))
@@ -60,14 +73,20 @@ class Runner:
                          ftarget,
                          self.params.write,
                          self.params.force)
-            if ok:
-                processed+=1
+            if ok: processed+=1
 
         if processed == self.filescount:
             logerr.info(f"Success: processed {processed}/{self.filescount} files")
         if processed != self.filescount:
             logerr.error(f"Failed: processed {processed}/{self.filescount} files")
 
+def ammend_date_in_json(filepath: str,fdate: datetime):
+    with open(filepath, "r") as file:
+        data = json.load(file)
+        newdate=fdate.strftime("%Y-%m-%d")
+        data["date"] = newdate
+    with open(filepath, "w") as file:
+        json.dump(data, file, indent=4)
 
 def move_file(src: str,dst: str,write: bool,forcewrite: bool) -> bool:
     err_file=f"input_file: {src}, error moving,"
@@ -78,7 +97,7 @@ def move_file(src: str,dst: str,write: bool,forcewrite: bool) -> bool:
         logerr.warn(f"{err_file} file already exists: {dst}")
     try:
         dstdir=os.path.dirname(dst)
-        print("heloo",dstdir)
+        # print("heloo",dstdir)
         if write:
             dstdir=os.path.dirname(dst)
             os.makedirs(dstdir, exist_ok=True)
@@ -88,14 +107,14 @@ def move_file(src: str,dst: str,write: bool,forcewrite: bool) -> bool:
         logerr.error(f"{err_file} exception {e}")
         return False
 
-def destination_path(date: datetime) -> str:
+def destination_path(date: datetime,seqnum:int) -> str:
     week_number=date.isocalendar()[1]
     wstring=f"W{week_number:02d}"
     year=str(date.year)
     month=date.month
     day=date.day
     daynum=date.weekday()+1
-    fname=f"{month:02d}-{day:02d}_{daynum:01d}.json"
+    fname=f"{month:02d}-{day:02d}_{seqnum:d}.json"
     dstdir=os.path.join(year,wstring,fname)
     return dstdir
 
@@ -106,6 +125,13 @@ def parse_date(date_string: str) -> datetime:
         return parsed_date
     except ValueError:
         return none
+
+def extract_seqnum(filename: str) -> tuple[int,bool]:
+    pattern = r"\d{4}-\d{2}-\d{2}_(\d+)\.json$"
+    match = re.search(pattern, filename)
+    if match:
+        return int(match.group(1)),True
+    return 0,False
 
 def date_from_filename(filename: str) -> datetime:
     # Use regular expression to extract date from filename

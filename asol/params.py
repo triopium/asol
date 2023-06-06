@@ -22,6 +22,10 @@ def args_read() -> Dict[str, any]:
 
     parser.add_argument("-f", "--force", required=False, help="force overwrite data in target directory",action='store_true')
 
+    parser.add_argument("--date-priority", required=False, help="Specify priority of date string for new filename",default="filename",choices=['filename','json'])
+
+    parser.add_argument("--ammend-date", required=False, help="Ammend date string in json field according to filename",action='store_true')
+
     parser.add_argument("-v", "--version", required=False, help="version of program",action='store_true')
 
     parser.add_argument("-pd", "--params-debug", required=False, help="print parameters",action='store_true')
