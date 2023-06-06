@@ -4,15 +4,31 @@
 # Build
 -dynamic version from git tag
 -using poetry
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install poetry
+poetry env use .venv/bin
+
+-update version in pyproject.toml from git tags
+poetry version $(git describe --tags --abbre=0)	
+poetry build
+
+%% /full/path/to/python
  
 # Installation
+pip install asol/dist/asol-(version)-whl
+
+e.g.
+pip install 'asol/dist/asol-0.1.2-py3-none-any.whl'
+
 # Usage
 - by default date from json object inside the file has higher priority than the date in filename
 
 ## Environment vars
 SOURCE_DIRECTORY
 TARGET_DIRECTORY
-LOGLEVEL
+LOGLEVEL  'default INFO
 
 ## Options
   -h, --help            show this help message and exit
