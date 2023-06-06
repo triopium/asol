@@ -28,8 +28,6 @@ def graph_count_files_week(directory: str):
     path = os.path.join(directory,"graph_count_files_week")
     fullpath=os.path.abspath(path)
     fig, ax = plt.subplots()
-    # ax.plot(keys, counts)
-    # ax.scatter(keys, counts)
     ax.bar(keys, counts)
     num_ticks = 5  # Number of ticks to display
     step = len(keys) // num_ticks  # Determine the step size
