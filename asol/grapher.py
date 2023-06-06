@@ -1,5 +1,6 @@
 import os
 import matplotlib.pyplot as plt
+from typing import List
 
 def get_files(directory_path: str) -> List[str]:
     files = []

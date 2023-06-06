@@ -33,7 +33,8 @@ def main ():
 
     if pars.graph_count_files_week:
         logerr.info("graphing count files per week")
-        get_files(pars.input)
+        files=grapher.get_files(pars.input)
+        print(files)
         sys.exit(0)
 
     ### Finally run
