@@ -32,7 +32,7 @@ def args_read() -> Dict[str, any]:
 
     parser.add_argument("-pc", "--params-check", required=False, help="check parameters validity",action='store_true')
 
-    parser.add_argument("--graph-count-files", required=False, help="check parameters validity",action='store_true')
+    parser.add_argument("--graph-count-files-week", required=False, help="Graph number of files (posts) in individual weeks",action='store_true')
 
     # parser.add_argument("-s", "--simulate", required=False, help="check parameters validity",action='store_true')
 

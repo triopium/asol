@@ -30,8 +30,8 @@ def main ():
         run.params_check()
         sys.exit(0)
 
-    if pars.graph_count_files:
-        logerr.debug("graphing count")
+    if pars.graph_count_files_week:
+        logerr.info("graphing count files per week")
         sys.exit(0)
 
     ### Finally run
