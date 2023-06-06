@@ -15,10 +15,32 @@ TARGET_DIRECTORY
 LOGLEVEL
 
 ## Options
--f, --force   'overwrite files in destination directory
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Input filename
+  -o OUTPUT, --output OUTPUT
+                        output filename
+  -w, --write           actually write the files
+  -f, --force           force overwrite data in target directory
+  --date-priority {filename,json}
+                        Specify priority of date string for new filename
+  --ammend-date         Ammend date string in json field according to filename
+  -v, --version         version of program
+  -pd, --params-debug   print parameters
+  -pc, --params-check   check parameters validity
+  --graph-count-files-week
+                        Graph number of files (posts) in individual weeks. Generates
+                        a file inside source dir given by -i
 
 ## Usage examples
-python -m asol -i testwd/source -o testwd/target -s
+* move files dryrun
+python -m asol -i testwd/source -o testwd/target
+ 
+* move files write
+python -m asol -i testwd/source -o testwd/target -w
+
+* move files write and ovewrite
+python -m asol -i testwd/source -o testwd/target -w -f
 
 # Treating errors
 Errors are written to stderr. Stderr can be piped to file.

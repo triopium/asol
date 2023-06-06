@@ -27,7 +27,7 @@ __pycache__/
 *$py.class
 *.egg
 *.egg-info/
-dist/*
+# dist/*
 build/*
 .pytest_cache/
 testwd/
