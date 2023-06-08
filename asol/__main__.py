@@ -1,27 +1,28 @@
 import logging
+
 from . import logger
+
 logerr = logging.getLogger(__name__)
 logerr.addHandler(logger.handler_stderr)
 
-import sys
 import os
-from . import params
-from . import runner
-from . import grapher
-from . import __version__
+import sys
+
+from . import __version__, grapher, params, runner
 
 """
 The command line interface.
 """
 
-def main ():
+
+def main():
     # pars=params.ParamsPrepare()
-    pars=params.args_read()
+    pars = params.args_read()
     if pars.version:
         print(__version__)
         sys.exit(0)
 
-    run=runner.Runner(pars)
+    run = runner.Runner(pars)
     if pars.params_debug:
         run.params_debug()
         sys.exit(0)
@@ -41,5 +42,5 @@ def main ():
     sys.exit(0)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
