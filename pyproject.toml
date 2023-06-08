@@ -1,20 +1,28 @@
-[tool.poetry]
+[project]
 name = "asol"
-version = "0.1.2"
-description = ""
-authors = ["Jan Kacaba <jan.kacaba@gmail.com>"]
-readme = "README.md"
+dynamic = ["version", "readme"]
+authors = [
+    {name = "Jan Kačaba", email = "jan.kacaba@gmail.com"},
+]
+description = "Solution for <https://github.com/czech-radio/assignment>"
+requires-python = ">=3.11"
+keywords = ["problem", "solution"]
+license = {text = "BSD-3-Clause"}
+dependencies = [
+    "matplotlib",
+]
 
-[tool.poetry.dependencies]
-python = "^3.11"
-# requests = "^2.29.0"
-requests = "^2.31.0"
-matplotlib = "^3.7.1"
+[tool.setuptools.dynamic]
+version = {attr = "asol.__version__"}
+readme = {file = ["README.rst", "USAGE.rst"]}
+
+[tool.setuptools.packages.find]
+where = ["."] 
+namespaces = false  
 
 
-[tool.poetry.group.test.dependencies]
-pytest = "^7.3.1"
+[project.optional-dependencies]
+dev = ["pytest", "black", "isort"]
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[project.scripts]
+asol = "asol.__main__:main"
