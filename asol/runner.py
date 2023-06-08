@@ -110,7 +110,7 @@ def move_file(src: str,dst: str,write: bool,forcewrite: bool) -> bool:
 def destination_path(date: datetime,seqnum:int) -> str:
     week_number=date.isocalendar()[1]
     wstring=f"W{week_number:02d}"
-    year=str(date.year)
+    year=str(date.isocalendar()[0])
     month=date.month
     day=date.day
     daynum=date.weekday()+1
