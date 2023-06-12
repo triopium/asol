@@ -128,7 +128,8 @@ def ParamsPrepare():
     # parss=pars.Namespace()
     srcdir = GetPathCmdEnvCwd(pars.input)
     dstdir = GetPathCmdEnvCwd(pars.output)
-
+    
+    ### Maybe automatically create dstdir/target directory if target is same as source.
     # if srcdir == dstdir:
     # dstdir=os.path.join(dstdir,"target")
 

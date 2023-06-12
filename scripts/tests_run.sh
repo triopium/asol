@@ -4,7 +4,8 @@ SSRCD="${BASH_SOURCE%/*}"
 curdir=$PWD
 tests_dir="$(realpath "${SSRCD}/../tests/")"
 
-runecho(){
-pytest --capture=tee-sys "$@"
+run_withlogs(){
+# pytest --capture=tee-sys "$@"
+pytest -o log_cli=true "$@"
 }
 "$@"

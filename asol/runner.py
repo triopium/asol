@@ -119,7 +119,6 @@ def destination_path(date: datetime,seqnum:int) -> str:
     dstdir=os.path.join(f"{year:d}",f"W{week_number:d}",fname)
     return dstdir
 
-
 def parse_date(date_string: str) -> datetime:
     try:
         format_string = "%Y-%m-%d"
@@ -193,3 +192,6 @@ def params_check(pars):
     if os.listdir(pars.output):
         logerr.warn(f"output directory not empty: {pars.output}")
     return pars
+
+def debug_test():
+    return True
