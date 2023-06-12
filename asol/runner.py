@@ -111,16 +111,13 @@ def move_file(src: str, dst: str, write: bool, forcewrite: bool) -> bool:
         logerr.error(f"{err_file} exception {e}")
         return False
 
-
-def destination_path(date: datetime, seqnum: int) -> str:
-    week_number = date.isocalendar()[1]
-    wstring = f"W{week_number:02d}"
-    year = str(date.year)
-    month = date.month
-    day = date.day
-    daynum = date.weekday() + 1
-    fname = f"{month:02d}-{day:02d}_{seqnum:d}.json"
-    dstdir = os.path.join(year, wstring, fname)
+def destination_path(date: datetime,seqnum:int) -> str:
+    year,week_number,_=date.isocalendar()
+    month=date.month
+    day=date.day
+    daynum=date.weekday()+1
+    fname=f"{month:02d}-{day:02d}_{seqnum:d}.json"
+    dstdir=os.path.join(f"{year:d}",f"W{week_number:d}",fname)
     return dstdir
 
 
