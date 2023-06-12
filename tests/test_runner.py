@@ -3,6 +3,8 @@ from asol.runner import *
 import unittest
 import logging
 logerr = logging.getLogger(__name__)
+import git
+import tempfile
 
 ### simple
 def test_debug_test():
@@ -31,6 +33,22 @@ def test_destination_path(destination_path_cases):
         sq,ok=extract_seqnum(filename)
         result = destination_path(dt,sq)
         assert expected == result
+
+### test with temp directory
+@pytest.fixture(scope="session")
+def temp_dir(tmpdir_factory):
+    # Create a temporary directory at the session level
+    temp_dir = tmpdir_factory.mktemp("my_temp_dir")
+    return temp_dir
+
+def test_with_temp_dir(tmpdir):
+    ### Clone assignmet
+    logerr.info(tmpdir)
+    url="https://github.com/czech-radio/assignment"
+    repo_path = git.Repo.clone_from(url, tmpdir)
+    logerr.info(repo_path)
+    ### Run prepare.py inside assignment
+    #### ensure that the script sees only the tmp dir
 
 ### test class
 # @pytest.fixture
