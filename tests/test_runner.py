@@ -49,6 +49,9 @@ def test_with_temp_dir(tmpdir):
     logerr.info(repo_path)
     ### Run prepare.py inside assignment
     #### ensure that the script sees only the tmp dir
+    os.chdir(tmpdir)
+    logerr.info(os.getcwd())
+    logerr.info(os.listdir(tmpdir))
 
 ### test class
 # @pytest.fixture
