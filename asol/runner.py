@@ -17,13 +17,11 @@ from datetime import datetime
 def count_files_norecurse(directory):
     return len(os.listdir(directory))
 
-
 ### stdout
 @dataclass
 class file_processing_data:
     source: str
     target: str
-
 
 class Runner:
     def __init__(self, pars):
@@ -31,7 +29,8 @@ class Runner:
         files = os.listdir(pars.input)
         self.files = files
         self.filescount = len(files)
-
+    def tester_debug(self):
+        return True
     def params_debug(self):
         print(json.dumps(self.params.__dict__))
 
@@ -129,14 +128,12 @@ def parse_date(date_string: str) -> datetime:
     except ValueError:
         return none
 
-
 def extract_seqnum(filename: str) -> tuple[int, bool]:
     pattern = r"\d{4}-\d{2}-\d{2}_(\d+)\.json$"
     match = re.search(pattern, filename)
     if match:
         return int(match.group(1)), True
     return 0, False
-
 
 def date_from_filename(filename: str) -> datetime:
     # Use regular expression to extract date from filename
@@ -148,7 +145,6 @@ def date_from_filename(filename: str) -> datetime:
     else:
         logerr.error("filename.date: no valid date")
         return None
-
 
 def date_from_json(input_file: str) -> datetime:
     err_json = f"input_file: {input_file}, error parsing,"
@@ -180,7 +176,6 @@ def date_from_json(input_file: str) -> datetime:
     except Exception as e:
         logerr.error(f"{err_json} json.date: exception, {e}")
         return None
-
 
 def params_check(pars):
     """Check that parametrs are valid"""

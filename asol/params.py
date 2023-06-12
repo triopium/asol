@@ -97,8 +97,6 @@ def args_read() -> Dict[str, any]:
         action="store_true",
     )
 
-    # parser.add_argument("-s", "--simulate", required=False, help="check parameters validity",action='store_true')
-
     params = parser.parse_args()
     params.input = os.path.abspath(params.input)
     params.output = os.path.abspath(params.output)
@@ -108,7 +106,7 @@ def args_read() -> Dict[str, any]:
 def get_default_sourcedir() -> str:
     dirpath = os.environ.get("SOURCE_DIRECTORY")
     if dirpath is None or dirpath == "":
-        #### from current dirpath
+        ### from current dirpath
         dirpath = os.getcwd()
     return os.path.abspath(dirpath)
 
@@ -116,7 +114,7 @@ def get_default_sourcedir() -> str:
 def get_default_targetdir() -> str:
     dirpath = os.environ.get("TARGET_DIRECTORY")
     if dirpath is None or dirpath == "":
-        #### from current dirpath
+        ### from current dirpath
         dirpath = os.getcwd()
         # dirpath=os.path.join(dirpath,"target")
     return os.path.abspath(dirpath)
@@ -127,7 +125,6 @@ def ParamsPrepare():
     Check that parametrs are valid
     """
     pars = args_read()
-    # print(pars)
     # parss=pars.Namespace()
     srcdir = GetPathCmdEnvCwd(pars.input)
     dstdir = GetPathCmdEnvCwd(pars.output)
@@ -150,8 +147,4 @@ def ParamsPrepare():
     pars.output = dstdir
     return pars
 
-    # pars=ParamsPrepare()
 
-
-# def ParamsCheck():
-# pars=ParamsPrepare()

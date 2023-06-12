@@ -3,6 +3,8 @@
 SSRCD="${BASH_SOURCE%/*}"
 curdir=$PWD
 tests_dir="$(realpath "${SSRCD}/../tests/")"
-# echo $tests_dir
-# cd $S/tests/
-# cd "$curdir"
+
+runecho(){
+pytest --capture=tee-sys "$@"
+}
+"$@"
